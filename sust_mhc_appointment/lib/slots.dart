@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class SlotsPage extends StatelessWidget {
-  final DateTime selectedDate;
-
-  SlotsPage(this.selectedDate);
+  const SlotsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final selectedDate = ModalRoute.of(context)!.settings.arguments as DateTime?;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Time Slot'),
@@ -16,37 +16,57 @@ class SlotsPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Available Time Slots for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
+              'Available Time Slots for ${selectedDate?.day}/${selectedDate?.month}/${selectedDate?.year}',
               style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Handle the selection of 15:00-15:30
+                _showConfirmationPopup(context);
               },
               child: const Text('15:00 - 15:30'),
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle the selection of 15:30-16:00
+                _showConfirmationPopup(context);
               },
               child: const Text('15:30 - 16:00'),
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle the selection of 16:00-16:30
+                _showConfirmationPopup(context);
               },
               child: const Text('16:00 - 16:30'),
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle the selection of 16:30-17:00
+                _showConfirmationPopup(context);
               },
               child: const Text('16:30 - 17:00'),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void _showConfirmationPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Yohooo, Confirmed!'),
+          content: const Text('Your appointment has been confirmed.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

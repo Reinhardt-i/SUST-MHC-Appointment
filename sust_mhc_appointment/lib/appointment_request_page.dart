@@ -1,17 +1,14 @@
-// appointment_request_page.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'slots.dart'; // Import the SlotsPage
 
 class AppointmentRequestPage extends StatefulWidget {
-  const AppointmentRequestPage({super.key});
+  const AppointmentRequestPage({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
-  _AppointmentRequestPageState createState() => _AppointmentRequestPageState();
+  AppointmentRequestPageState createState() => AppointmentRequestPageState();
 }
 
-class _AppointmentRequestPageState extends State<AppointmentRequestPage> {
+class AppointmentRequestPageState extends State<AppointmentRequestPage> {
   late DateTime selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -25,7 +22,6 @@ class _AppointmentRequestPageState extends State<AppointmentRequestPage> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        // Add logic here to handle the selected date
       });
     }
   }
@@ -34,16 +30,9 @@ class _AppointmentRequestPageState extends State<AppointmentRequestPage> {
     if (selectedDate != null) {
       if (selectedDate.weekday == DateTime.friday ||
           selectedDate.weekday == DateTime.saturday) {
-        // Show popup for closed days
         _showClosedPopup();
       } else {
-        // Navigate to the SlotsPage
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SlotsPage(selectedDate),
-          ),
-        );
+        Navigator.pushNamed(context, '/slots', arguments: selectedDate);
       }
     } else {
       // Handle error, show a message, or prevent navigation
