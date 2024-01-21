@@ -4,10 +4,12 @@ import 'package:sust_mhc_appointment/appointment_request_page.dart';
 import 'package:sust_mhc_appointment/slots.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => LoginPage(),
-        '/appointmentRequest': (context) => AppointmentRequestPage(),
+        '/appointmentRequest': (context) => const AppointmentRequestPage(),
         '/slots': (context) => const SlotsPage(),
       },
     );

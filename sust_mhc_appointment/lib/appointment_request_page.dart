@@ -27,17 +27,13 @@ class AppointmentRequestPageState extends State<AppointmentRequestPage> {
   }
 
   void _confirmAppointment() {
-    if (selectedDate != null) {
-      if (selectedDate.weekday == DateTime.friday ||
-          selectedDate.weekday == DateTime.saturday) {
-        _showClosedPopup();
-      } else {
-        Navigator.pushNamed(context, '/slots', arguments: selectedDate);
-      }
+    if (selectedDate.weekday == DateTime.friday ||
+        selectedDate.weekday == DateTime.saturday) {
+      _showClosedPopup();
     } else {
-      // Handle error, show a message, or prevent navigation
+      Navigator.pushNamed(context, '/slots', arguments: selectedDate);
     }
-  }
+    }
 
   void _showClosedPopup() {
     showDialog(
@@ -75,8 +71,7 @@ class AppointmentRequestPageState extends State<AppointmentRequestPage> {
               onPressed: () => _selectDate(context),
               child: const Text('Select Date'),
             ),
-            if (selectedDate != null)
-              const SizedBox(height: 16),
+            const SizedBox(height: 16),
               Text(
                 'Selected Date: ${DateFormat('dd/MM/yyyy').format(selectedDate)}',
                 style: const TextStyle(fontSize: 18),
