@@ -55,8 +55,8 @@ class SlotsPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Yohooo, Confirmed!'),
-          content: const Text('Your appointment has been confirmed.'),
+          title: const Text('Appointment Requested!'),
+          content: const Text('You will be notified through email if your request is approved'),
           actions: [
             TextButton(
               onPressed: () {

@@ -79,7 +79,7 @@ class AppointmentRequestPageState extends State<AppointmentRequestPage> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _confirmAppointment,
-              child: const Text('Confirm Appointment'),
+              child: const Text('Confirm'),
             ),
           ],
         ),
