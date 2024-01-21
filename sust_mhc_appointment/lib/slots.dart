@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SlotsPage extends StatelessWidget {
-  const SlotsPage({super.key});
+  const SlotsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,6 +10,7 @@ class SlotsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Time Slot'),
+        backgroundColor: Colors.deepPurple,
       ),
       body: Center(
         child: Column(
@@ -24,24 +25,40 @@ class SlotsPage extends StatelessWidget {
               onPressed: () {
                 _showConfirmationPopup(context);
               },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.deepPurple,
+                textStyle: TextStyle(fontSize: 16, color: Colors.white), // Add text color
+              ),
               child: const Text('15:00 - 15:30'),
             ),
             ElevatedButton(
               onPressed: () {
                 _showConfirmationPopup(context);
               },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.deepPurple,
+                textStyle: TextStyle(fontSize: 16, color: Colors.white), // Add text color
+              ),
               child: const Text('15:30 - 16:00'),
             ),
             ElevatedButton(
               onPressed: () {
                 _showConfirmationPopup(context);
               },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.deepPurple,
+                textStyle: TextStyle(fontSize: 16, color: Colors.white), // Add text color
+              ),
               child: const Text('16:00 - 16:30'),
             ),
             ElevatedButton(
               onPressed: () {
                 _showConfirmationPopup(context);
               },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.deepPurple,
+                textStyle: TextStyle(fontSize: 16, color: Colors.white), // Add text color
+              ),
               child: const Text('16:30 - 17:00'),
             ),
           ],
@@ -62,7 +79,7 @@ class SlotsPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('OK'),
+              child: const Text('OK', style: TextStyle(color: Colors.deepPurple)),
             ),
           ],
         );

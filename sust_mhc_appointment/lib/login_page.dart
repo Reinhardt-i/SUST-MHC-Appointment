@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   LoginPage({Key? key});
 
@@ -74,44 +75,65 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Login for Appointment'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              controller: emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () async {
-                final email = emailController.text;
-                final password = passwordController.text;
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                controller: emailController,
+                decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder()),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: passwordController,
+                decoration: const InputDecoration(labelText: 'Password', border: OutlineInputBorder()),
+                obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    final email = emailController.text;
+                    final password = passwordController.text;
 
-                if (kDebugMode) {
-                  print('Before validation');
-                }
-                bool isValidLogin = await _validateLogin(email, password);
-                if (kDebugMode) {
-                  print('After validation');
-                }
+                    if (kDebugMode) {
+                      print('Before validation');
+                    }
+                    bool isValidLogin = await _validateLogin(email, password);
+                    if (kDebugMode) {
+                      print('After validation');
+                    }
 
-                if (isValidLogin) {
-                  Navigator.pushNamed(context, '/appointmentRequest');
-                } else {
-                  _showInvalidLoginPopup(context);
-                }
-              },
-              child: const Text('Login'),
-            ),
-          ],
+                    if (isValidLogin) {
+                      Navigator.pushNamed(context, '/appointmentRequest');
+                    } else {
+                      _showInvalidLoginPopup(context);
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.deepPurple,
+                  textStyle: TextStyle(fontSize: 16),
+                ),
+                child: const Text('Login'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -122,14 +144,14 @@ class LoginPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Invalid Login'),
+          title: const Text('Invalid Login', style: TextStyle(fontWeight: FontWeight.bold)),
           content: const Text('Please check your email and password and try again.'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
-              child: const Text('OK'),
+              child: const Text('OK', style: TextStyle(color: Colors.deepPurple)),
             ),
           ],
         );
