@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SlotsPage extends StatelessWidget {
-  const SlotsPage({Key? key}) : super(key: key);
+  const SlotsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,8 @@ class SlotsPage extends StatelessWidget {
                 _showConfirmationPopup(context);
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.deepPurple,
-                textStyle: TextStyle(fontSize: 16, color: Colors.white), // Add text color
+                backgroundColor: Colors.deepPurple,
+                textStyle: const TextStyle(fontSize: 16, color: Colors.white), // Add text color
               ),
               child: const Text('15:00 - 15:30'),
             ),
@@ -36,8 +36,8 @@ class SlotsPage extends StatelessWidget {
                 _showConfirmationPopup(context);
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.deepPurple,
-                textStyle: TextStyle(fontSize: 16, color: Colors.white), // Add text color
+                backgroundColor: Colors.deepPurple,
+                textStyle: const TextStyle(fontSize: 16, color: Colors.white), // Add text color
               ),
               child: const Text('15:30 - 16:00'),
             ),
@@ -46,8 +46,8 @@ class SlotsPage extends StatelessWidget {
                 _showConfirmationPopup(context);
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.deepPurple,
-                textStyle: TextStyle(fontSize: 16, color: Colors.white), // Add text color
+                backgroundColor: Colors.deepPurple,
+                textStyle: const TextStyle(fontSize: 16, color: Colors.white), // Add text color
               ),
               child: const Text('16:00 - 16:30'),
             ),
@@ -56,8 +56,8 @@ class SlotsPage extends StatelessWidget {
                 _showConfirmationPopup(context);
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.deepPurple,
-                textStyle: TextStyle(fontSize: 16, color: Colors.white), // Add text color
+                backgroundColor: Colors.deepPurple,
+                textStyle: const TextStyle(fontSize: 16, color: Colors.white), // Add text color
               ),
               child: const Text('16:30 - 17:00'),
             ),
@@ -73,7 +73,7 @@ class SlotsPage extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Appointment Requested!'),
-          content: const Text('You will be notified through email if your request is approved'),
+          content: const Text('You will be notified through the given phone number if your request is approved'),
           actions: [
             TextButton(
               onPressed: () {

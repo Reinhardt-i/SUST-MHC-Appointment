@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart';
@@ -8,6 +10,7 @@ class LoginPage extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  // ignore: use_key_in_widget_constructors
   LoginPage({Key? key});
 
   Future<bool> _validateLogin(String email, String password) async {
@@ -17,7 +20,7 @@ class LoginPage extends StatelessWidget {
         print('CSV Data before conversion: $csvData');
       }
 
-      final rows = CsvToListConverter(eol: '\n', fieldDelimiter: ',').convert(csvData);
+      final rows = const CsvToListConverter(eol: '\n', fieldDelimiter: ',').convert(csvData);
       if (kDebugMode) {
         print('Rows: $rows');
         print('Rows length before loop: ${rows.length}');
@@ -127,8 +130,8 @@ class LoginPage extends StatelessWidget {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.deepPurple,
-                  textStyle: TextStyle(fontSize: 16),
+                  backgroundColor: Colors.deepPurple,
+                  textStyle: const TextStyle(fontSize: 16),
                 ),
                 child: const Text('Login'),
               ),

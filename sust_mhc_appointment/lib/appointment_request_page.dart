@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:csv/csv.dart';
 
 class AppointmentRequestPage extends StatefulWidget {
-  const AppointmentRequestPage({Key? key}) : super(key: key);
+  const AppointmentRequestPage({super.key});
 
   @override
   AppointmentRequestPageState createState() => AppointmentRequestPageState();
@@ -11,7 +13,7 @@ class AppointmentRequestPage extends StatefulWidget {
 
 class AppointmentRequestPageState extends State<AppointmentRequestPage> {
   late DateTime selectedDate = DateTime.now();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneNumController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -31,11 +33,11 @@ class AppointmentRequestPageState extends State<AppointmentRequestPage> {
 
   void _confirmAppointment() {
     if (_formKey.currentState?.validate() ?? false) {
-      final email = emailController.text;
+      final phoneNum = phoneNumController.text;
       final requestedTimeSlot = DateFormat('HH:mm').format(selectedDate);
       final requestDateTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
 
-      _saveAppointmentRequest(email, requestedTimeSlot, requestDateTime);
+      _saveAppointmentRequest(phoneNum, requestedTimeSlot, requestDateTime);
 
       if (selectedDate.weekday == DateTime.friday ||
           selectedDate.weekday == DateTime.saturday) {
@@ -46,14 +48,33 @@ class AppointmentRequestPageState extends State<AppointmentRequestPage> {
     }
   }
 
-  void _saveAppointmentRequest(String email, String requestedTimeSlot, String requestDateTime) {
-    final appointmentRequest = '$email, $requestedTimeSlot, $requestDateTime\n';
+void _saveAppointmentRequest(String phoneNum, String requestedTimeSlot, String requestDateTime) {
+  try {
+    final List<List<dynamic>> data = [
+      ['Phone', 'Requested Time Slot', 'Request DateTime'],
+      [phoneNum, requestedTimeSlot, requestDateTime],
+    ];
 
-    File('appointment_requests.txt').writeAsStringSync(
-      appointmentRequest,
-      mode: FileMode.append,
-    );
+    final csvFileContent = const ListToCsvConverter().convert(data);
+
+    final file = File('appointment_requests.csv');
+    if (!file.existsSync()) {
+      // If the file doesn't exist, create it and add the header
+      file.writeAsStringSync(csvFileContent);
+    } else {
+      // If the file already exists, append the new data
+      file.writeAsStringSync('$csvFileContent\n', mode: FileMode.append);
+    }
+
+    if (kDebugMode) {
+      print('Data appended to CSV file successfully');
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print('Error appending data to CSV file: $e');
+    }
   }
+}
 
   void _showClosedPopup() {
     showDialog(
@@ -89,11 +110,11 @@ class AppointmentRequestPageState extends State<AppointmentRequestPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
-                controller: emailController,
-                decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder()),
+                controller: phoneNumController,
+                decoration: const InputDecoration(labelText: 'Phone', border: OutlineInputBorder()),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
+                    return 'Please enter your Phone number';
                   }
                   return null;
                 },
@@ -103,7 +124,7 @@ class AppointmentRequestPageState extends State<AppointmentRequestPage> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () => _selectDate(context),
-                style: ElevatedButton.styleFrom(primary: Colors.deepPurple),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
                 child: const Text('Select Date', style: TextStyle(fontSize: 16)),
               ),
               const SizedBox(height: 16),
@@ -115,8 +136,8 @@ class AppointmentRequestPageState extends State<AppointmentRequestPage> {
               ElevatedButton(
                 onPressed: _confirmAppointment,
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.deepPurple,
-                  textStyle: TextStyle(fontSize: 16),
+                  backgroundColor: Colors.deepPurple,
+                  textStyle: const TextStyle(fontSize: 16),
                 ),
                 child: const Text('Confirm'),
               ),
